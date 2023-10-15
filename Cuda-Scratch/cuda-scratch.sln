@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cuda-Scratch", "Cuda-Scratch\Cuda-Scratch.vcxproj", "{3AD03EAA-CE45-45FC-8B65-17BBF3405246}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WARP_DIVERGENCE", "WARP_DIVERGENCE\WARP_DIVERGENCE.vcxproj", "{4059A89B-BDEE-4CF3-917C-E86600B1C19F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GPU_STATS", "GPU_STATS\GPU_STATS.vcxproj", "{10EA4F16-74DE-4EF9-9EF6-30A687B70DDF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KERNEL_OPTIMIZATION", "KERNEL_OPTIMIZATION\KERNEL_OPTIMIZATION.vcxproj", "{65D77C87-128D-40A6-8525-3894E2C4931F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AD03EAA-CE45-45FC-8B65-17BBF3405246}.Debug|x64.ActiveCfg = Debug|x64
+		{3AD03EAA-CE45-45FC-8B65-17BBF3405246}.Debug|x64.Build.0 = Debug|x64
+		{3AD03EAA-CE45-45FC-8B65-17BBF3405246}.Release|x64.ActiveCfg = Release|x64
+		{3AD03EAA-CE45-45FC-8B65-17BBF3405246}.Release|x64.Build.0 = Release|x64
+		{4059A89B-BDEE-4CF3-917C-E86600B1C19F}.Debug|x64.ActiveCfg = Debug|x64
+		{4059A89B-BDEE-4CF3-917C-E86600B1C19F}.Debug|x64.Build.0 = Debug|x64
+		{4059A89B-BDEE-4CF3-917C-E86600B1C19F}.Release|x64.ActiveCfg = Release|x64
+		{4059A89B-BDEE-4CF3-917C-E86600B1C19F}.Release|x64.Build.0 = Release|x64
+		{10EA4F16-74DE-4EF9-9EF6-30A687B70DDF}.Debug|x64.ActiveCfg = Debug|x64
+		{10EA4F16-74DE-4EF9-9EF6-30A687B70DDF}.Debug|x64.Build.0 = Debug|x64
+		{10EA4F16-74DE-4EF9-9EF6-30A687B70DDF}.Release|x64.ActiveCfg = Release|x64
+		{10EA4F16-74DE-4EF9-9EF6-30A687B70DDF}.Release|x64.Build.0 = Release|x64
+		{65D77C87-128D-40A6-8525-3894E2C4931F}.Debug|x64.ActiveCfg = Debug|x64
+		{65D77C87-128D-40A6-8525-3894E2C4931F}.Debug|x64.Build.0 = Debug|x64
+		{65D77C87-128D-40A6-8525-3894E2C4931F}.Release|x64.ActiveCfg = Release|x64
+		{65D77C87-128D-40A6-8525-3894E2C4931F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A695485B-3582-4814-AC9C-C71D23CDF6BD}
+	EndGlobalSection
+EndGlobal
