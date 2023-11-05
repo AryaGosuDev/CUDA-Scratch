@@ -1,1 +1,2 @@
-﻿  KERNEL_OPTIMIZATION.vcxproj -> C:\Users\karratdev\Projects\CUDA-scratch\cuda-scratch\x64\Debug\KERNEL_OPTIMIZATION.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (KERNEL_OPTIMIZATION.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  KERNEL_OPTIMIZATION.vcxproj -> C:\Users\karratdev\Projects\CUDA-scratch\cuda-scratch\x64\Debug\KERNEL_OPTIMIZATION_MATRIX_ADDITION.exe

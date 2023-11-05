@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{65D77C87-128D-40A6-8525-3894E2C4931F}</ProjectGuid>
     <RootNamespace>KERNEL_OPTIMIZATION</RootNamespace>
+    <ProjectName>KERNEL_OPTIMIZATION_MATRIX_ADDITION</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

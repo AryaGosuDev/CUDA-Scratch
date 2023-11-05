@@ -17,7 +17,6 @@
     } \
 } \
 
-
 void returnGPUCudaInfoResources() {
     int deviceCount;
     cudaGetDeviceCount(&deviceCount);
@@ -90,10 +89,8 @@ void returnGPUCudaInfoResources() {
             << std::setw(nameWidth) << "Number of Async Engines:" << std::setw(valueWidth) << deviceProp.asyncEngineCount << "\n"
             << std::setw(nameWidth) << "Pageable Memory Access Uses Host Page Tables:" << std::setw(valueWidth) << (deviceProp.pageableMemoryAccessUsesHostPageTables ? "Yes" : "No") << "\n"
             << std::setw(nameWidth) << "Direct Managed Memory Access from Host:" << std::setw(valueWidth) << (deviceProp.directManagedMemAccessFromHost ? "Yes" : "No") << "\n";
-
         std::cout << "\n";
     }
-
 }
 
 int main() {
