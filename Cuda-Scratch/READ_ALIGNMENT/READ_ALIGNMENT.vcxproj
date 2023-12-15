@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{855ADC94-14EF-4CC4-B6E8-7184DE91BC00}</ProjectGuid>
     <RootNamespace>READ_ALIGNMENT</RootNamespace>
+    <ProjectName>READ_WRITE_ALIGNMENT</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

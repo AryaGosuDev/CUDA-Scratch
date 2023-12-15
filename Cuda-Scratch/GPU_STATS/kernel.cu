@@ -1,12 +1,9 @@
-﻿
-#include "cuda_runtime.h"
+﻿#include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-
 #include <stdio.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
-
 
 #define checkCudaErrors(call) { \
     const cudaError_t error = call; \
@@ -17,6 +14,36 @@
     } \
 } \
 
+/*
+profiler : 
+
+nv-nsight-cu-cli [options] <application> [application's arguments]
+
+nv-nsight-cu-cli --query-metrics
+
+C:\Users\karratdev\Projects\CUDA-scratch\Cuda-Scratch\x64\Debug>nv-nsight-cu-cli --list-sets
+---------- --------------------------------------------------------------------------- ------- -----------------
+Identifier Sections                                                                    Enabled Estimated Metrics
+---------- --------------------------------------------------------------------------- ------- -----------------
+default    LaunchStats, Occupancy, SpeedOfLight                                        yes     36
+detailed   ComputeWorkloadAnalysis, InstructionStats, LaunchStats, MemoryWorkloadAnaly no      173
+           sis, Nvlink, Occupancy, SchedulerStats, SourceCounters, SpeedOfLight, Speed
+           OfLight_RooflineChart, WarpStateStats
+full       ComputeWorkloadAnalysis, InstructionStats, LaunchStats, MemoryWorkloadAnaly no      178
+           sis, MemoryWorkloadAnalysis_Chart, MemoryWorkloadAnalysis_Tables, Nvlink, O
+           ccupancy, SchedulerStats, SourceCounters, SpeedOfLight, SpeedOfLight_Roofli
+           neChart, WarpStateStats
+source     SourceCounters
+
+ex:
+
+nv-nsight-cu-cli --section MemoryWorkloadAnalysis SHARED_MEM_ROW_COL_ACCESS.exe
+
+nv-nsight-cu-cli --metrics sm__sass_l1tex_data_pipe_lsu_wavefronts_mem_shared_op_ld,
+                           sm__sass_l1tex_data_pipe_lsu_wavefronts_mem_shared_op_st,
+                           sm__sass_l1tex_pipe_lsu_wavefronts_mem_shared SHARED_MEM_ROW_COL_ACCESS.exe
+
+*/
 void returnGPUCudaInfoResources() {
     int deviceCount;
     cudaGetDeviceCount(&deviceCount);

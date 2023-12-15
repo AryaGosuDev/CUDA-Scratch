@@ -91,7 +91,7 @@ void printfHostResult(SoA* C, const int n) {
 
     return;
 }
-
+ 
 void checkSoAArray(SoA* hostRef, SoA* gpuRef, const int N)
 {
     double epsilon = 1.0E-8;

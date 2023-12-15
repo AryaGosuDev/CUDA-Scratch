@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 
-
 #define checkCudaErrors(call) { \
     const cudaError_t error = call; \
     if (error != cudaSuccess) {\

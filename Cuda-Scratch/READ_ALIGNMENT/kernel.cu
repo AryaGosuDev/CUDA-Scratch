@@ -47,7 +47,6 @@ void initialData(float* ip, int size)
     return;
 }
 
-
 void sumArraysOnHost(float* A, float* B, float* C, const int n, int offset)
 {
     for (int idx = offset, k = 0; idx < n; idx++, k++)
@@ -56,12 +55,58 @@ void sumArraysOnHost(float* A, float* B, float* C, const int n, int offset)
     }
 }
 
-__global__ void warmup(float* A, float* B, float* C, const int n, int offset)
+void sumArraysOnHostWrite(float* A, float* B, float* C, const int n, int offset)
+{
+    for (int idx = offset, k = 0; idx < n; idx++, k++)
+    {
+        C[k] = A[k] + B[k];
+    }
+}
+
+__global__ void writeOffset(float* A, float* B, float* C, const int n,
+    int offset)
 {
     unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
     unsigned int k = i + offset;
 
-    if (k < n) C[i] = A[k] + B[k];
+    if (k < n) C[k] = A[i] + B[i];
+}
+
+__global__ void readwriteOffset(float* A, float* B, float* C, const int n,
+    int offset)
+{
+    unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    unsigned int k = i + offset;
+
+    if (k < n) C[k] = A[k] + B[k];
+}
+
+__global__ void writeOffsetUnroll2(float* A, float* B, float* C, const int n,
+    int offset)
+{
+    unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    unsigned int k = i + offset;
+
+    if (k + blockDim.x < n)
+    {
+        C[k] = A[i] + B[i];
+        C[k + blockDim.x] = A[i + blockDim.x] + B[i + blockDim.x];
+    }
+}
+
+__global__ void writeOffsetUnroll4(float* A, float* B, float* C, const int n,
+    int offset)
+{
+    unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    unsigned int k = i + offset;
+
+    if (k + 3 * blockDim.x < n)
+    {
+        C[k] = A[i] + B[i];
+        C[k + blockDim.x] = A[i + blockDim.x] + B[i + blockDim.x];
+        C[k + 2 * blockDim.x] = A[i + 2 * blockDim.x] + B[i + 2 * blockDim.x];
+        C[k + 3 * blockDim.x] = A[i + 3 * blockDim.x] + B[i + 3 * blockDim.x];
+    }
 }
 
 __global__ void readOffset(float* A, float* B, float* C, const int n,
@@ -126,6 +171,22 @@ int main(int argc, char** argv)
     checkCudaErrors(cudaMemcpy(d_A, h_A, nBytes, cudaMemcpyHostToDevice));
     checkCudaErrors(cudaMemcpy(d_B, h_A, nBytes, cudaMemcpyHostToDevice));
     std::vector<int> offsetMarkArr = { 0,4,6,8,16,32,64,96,128,160,192,224,256 };
+    std::vector<int> offsetMarkWriteArr = { 32,33,64,65,128,129 };
+
+    if (argc > 1) {
+        start = std::chrono::steady_clock::now();
+        readwriteOffset << <grid, block >> > (d_A, d_B, d_C, nElem, offset);
+        checkCudaErrors(cudaDeviceSynchronize());
+        end = std::chrono::steady_clock::now(); diff = end - start;
+        elapsed = std::chrono::duration<double>(diff).count();
+        printf("readwriteOffset <<< %4d, %4d >>> offset %4d elapsed %f sec\n", grid.x,
+            block.x, offset, elapsed);
+        checkCudaErrors(cudaGetLastError());
+
+        exit(0);
+
+    }
+
     for (int i = 0; i < offsetMarkArr.size(); ++i) {
 
         start = std::chrono::steady_clock::now();
@@ -141,6 +202,60 @@ int main(int argc, char** argv)
         checkCudaErrors(cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost));
         sumArraysOnHost(h_A, h_B, hostRef, nElem, offsetMarkArr[i]);
         checkResult(hostRef, gpuRef, nElem - offsetMarkArr[i]);
+
+    }
+
+    for (int i = 0; i < offsetMarkWriteArr.size(); ++i) {
+
+        start = std::chrono::steady_clock::now();
+        writeOffset << <grid, block >> > (d_A, d_B, d_C, nElem, offsetMarkWriteArr[i]);
+        checkCudaErrors(cudaDeviceSynchronize());
+        end = std::chrono::steady_clock::now(); diff = end - start;
+        elapsed = std::chrono::duration<double>(diff).count();
+        printf("writeOffset <<< %4d, %4d >>> offset %4d elapsed %f sec\n", grid.x,
+            block.x, offsetMarkWriteArr[i], elapsed);
+        checkCudaErrors(cudaGetLastError());
+
+        // copy kernel result back to host side and check device results
+        //checkCudaErrors(cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost));
+        //sumArraysOnHost(h_A, h_B, hostRef, nElem, offsetMarkWriteArr[i]);
+        //checkResult(hostRef, gpuRef, nElem - offsetMarkWriteArr[i]);
+
+    }
+
+    for (int i = 0; i < offsetMarkWriteArr.size(); ++i) {
+
+        start = std::chrono::steady_clock::now();
+        readwriteOffset << <grid, block >> > (d_A, d_B, d_C, nElem, offsetMarkWriteArr[i]);
+        checkCudaErrors(cudaDeviceSynchronize());
+        end = std::chrono::steady_clock::now(); diff = end - start;
+        elapsed = std::chrono::duration<double>(diff).count();
+        printf("readwriteOffset <<< %4d, %4d >>> offset %4d elapsed %f sec\n", grid.x,
+            block.x, offsetMarkWriteArr[i], elapsed);
+        checkCudaErrors(cudaGetLastError());
+
+        // copy kernel result back to host side and check device results
+        //checkCudaErrors(cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost));
+        //sumArraysOnHost(h_A, h_B, hostRef, nElem, offsetMarkWriteArr[i]);
+        //checkResult(hostRef, gpuRef, nElem - offsetMarkWriteArr[i]);
+
+    }
+
+    for (int i = 0; i < offsetMarkWriteArr.size(); ++i) {
+
+        start = std::chrono::steady_clock::now();
+        writeOffsetUnroll2 << <grid.x / 2, block >> > (d_A, d_B, d_C, nElem / 2, offsetMarkWriteArr[i]);
+        checkCudaErrors(cudaDeviceSynchronize());
+        end = std::chrono::steady_clock::now(); diff = end - start;
+        elapsed = std::chrono::duration<double>(diff).count();
+        printf("writeOffsetUnroll2 <<< %4d, %4d >>> offset %4d elapsed %f sec\n", grid.x,
+            block.x, offsetMarkWriteArr[i], elapsed);
+        checkCudaErrors(cudaGetLastError());
+
+        // copy kernel result back to host side and check device results
+        //checkCudaErrors(cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost));
+        //sumArraysOnHost(h_A, h_B, hostRef, nElem, offsetMarkWriteArr[i]);
+        //checkResult(hostRef, gpuRef, nElem - offsetMarkWriteArr[i]);
 
     }
       
