@@ -1,0 +1,103 @@
+# =========================================================
+# Visual Studio + CUDA Scratch Project .gitignore
+# =========================================================
+
+# ---------------------------------------------------------
+# Visual Studio
+# ---------------------------------------------------------
+.vs/
+*.VC.db
+*.VC.opendb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio generated folders
+Debug/
+Release/
+x64/
+x86/
+ARM/
+ARM64/
+
+# CMake generated
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+CTestTestfile.cmake
+Makefile
+out/
+build/
+
+# ---------------------------------------------------------
+# CUDA / NVCC
+# ---------------------------------------------------------
+*.cubin
+*.ptx
+*.fatbin
+*.nvvp
+*.cudafe*
+*.gpu
+*.module_id
+*.ii
+*.obj
+*.o
+
+# Nsight
+*.nsight-gfxproj
+*.nsight-cuproj
+*.ncu-rep
+*.qdrep
+*.nsys-rep
+
+# ---------------------------------------------------------
+# Executables / Libraries
+# ---------------------------------------------------------
+*.exe
+*.dll
+*.lib
+*.exp
+*.pdb
+*.ilk
+
+# ---------------------------------------------------------
+# Logs / Temp
+# ---------------------------------------------------------
+*.log
+*.tmp
+*.cache
+
+# ---------------------------------------------------------
+# IntelliSense / Editor
+# ---------------------------------------------------------
+*.ipch
+*.opendb
+
+# VSCode
+.vscode/
+
+# ---------------------------------------------------------
+# Windows
+# ---------------------------------------------------------
+Thumbs.db
+Desktop.ini
+
+# ---------------------------------------------------------
+# Optional: Ignore assets/output images
+# Uncomment if needed
+# ---------------------------------------------------------
+# screenshots/
+# renders/
+# output/
+# *.png
+# *.jpg
+
+# ---------------------------------------------------------
+# Optional: Ignore external dependencies
+# Uncomment if using package managers
+# ---------------------------------------------------------
+# vcpkg_installed/
+# external/
+# third_party/build/
