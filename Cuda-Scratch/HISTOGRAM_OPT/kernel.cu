@@ -53,7 +53,7 @@
 #include <atomic>
 
 #include <ranges>
-#include "kernel.h"
+//#include "kernel.h"
 
 #define checkCudaErrors(call) { \
     const cudaError_t error = call; \
@@ -63,7 +63,6 @@
         exit(-10 * error);\
     } \
 } \
-
 
 static bool initImage( int* image, const size_t imageSize) {
     if (image != NULL) {
@@ -75,7 +74,6 @@ static bool initImage( int* image, const size_t imageSize) {
     return false;
 }
 
-
 static bool createGroundTruthHistogram( const int* image, int * histogram, const size_t imageSize) {
     if (image != NULL && histogram != NULL) {
         for (size_t i = 0; i < imageSize; ++i) {
@@ -85,7 +83,6 @@ static bool createGroundTruthHistogram( const int* image, int * histogram, const
     }
     return false;
 }
-
 
 static void printHistogram(int* histogram, const size_t histogramSize) {
     if (histogram != NULL) {
@@ -215,5 +212,6 @@ __global__ void calculateHistogramPrivate(const int* image, int* privateHistogra
         }
     }
     __syncthreads();
+
     
 }

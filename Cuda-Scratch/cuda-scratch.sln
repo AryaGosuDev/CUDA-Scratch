@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CHPT6P1", "CHPT6P1\CHPT6P1.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HISTOGRAM_OPT", "HISTOGRAM_OPT\HISTOGRAM_OPT.vcxproj", "{68B65680-D45F-B617-B689-E8790D7A7123}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PREFIX_SCAN_OPT", "PREFIX_SCAN_OPT\PREFIX_SCAN_OPT.vcxproj", "{DBF4D3E2-C560-9EC2-E069-970CD04CB1CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -105,6 +107,10 @@ Global
 		{68B65680-D45F-B617-B689-E8790D7A7123}.Debug|x64.Build.0 = Debug|x64
 		{68B65680-D45F-B617-B689-E8790D7A7123}.Release|x64.ActiveCfg = Release|x64
 		{68B65680-D45F-B617-B689-E8790D7A7123}.Release|x64.Build.0 = Release|x64
+		{DBF4D3E2-C560-9EC2-E069-970CD04CB1CB}.Debug|x64.ActiveCfg = Debug|x64
+		{DBF4D3E2-C560-9EC2-E069-970CD04CB1CB}.Debug|x64.Build.0 = Debug|x64
+		{DBF4D3E2-C560-9EC2-E069-970CD04CB1CB}.Release|x64.ActiveCfg = Release|x64
+		{DBF4D3E2-C560-9EC2-E069-970CD04CB1CB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

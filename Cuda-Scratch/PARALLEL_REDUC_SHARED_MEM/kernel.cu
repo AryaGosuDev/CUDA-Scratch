@@ -23,6 +23,129 @@
 
 extern __shared__ int dsmem[];
 
+
+/*
+__global__ SegmentedReductionKernel(float* input, float* output) {
+    __shared__ float input_s[BLOCK_DIM];
+
+    // Each block processes 2 * blockDim.x elements.
+    // Starting locations for each block has an offset by size of 2 * blockDimx
+    unsigned int segment = 2 * blockDim.x * blockIdx.x;
+    unsigned int i = segment + threadIdx.x;
+    unsigned int t = threadIdx.x;
+
+    input_s[t] = input[i] + input[i + BLOCK_DIM];
+
+    for (unsigned int stride = blockDim.x / 2; stride >= 1; stride /= 2) {
+        __syncthreads();
+        if (t < stride) {
+            input_s[t] += input_s[t + stride];
+        }
+    }
+    if (t == 0) {
+        atomicAdd(output, input_s[0]);
+    }
+}
+*/
+/*
++------------------------------------------------------+
+| Reduction kernel with thread coarsening              |
++------------------------------------------------------+
+
+(A) Two original thread blocks serialized
+--------------------------------------------------------
+
+Input Elements
+[□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□]
+
+Threads:
+ T T T T T T T T
+
+Stage 1:
+[■■■■■■■■■■■■■■■■] ( shared mem )
+ \ \ \ \ \ \ \ \
+  [■■■■■■■■]
+   \ \ \ \
+    [■■■■]
+     \ \
+      [■■]
+
+Hardware fully utilized
+-----------------------
+Hardware underutilized
+
+
+Then second block runs:
+
+[■■■■■■■■■■■■■■■■] ( shared mem )
+ \ \ \ \ \ \ \ \
+  [■■■■■■■■]
+   \ \ \ \
+    [■■■■]
+     \ \
+      [■■]
+
+
+
+(B) One coarsened thread block
+Can process much more input elements in one kernel.
+--------------------------------------------------------
+
+Input Elements
+[□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□]
+
+Threads:
+ T T T T T T T T
+
+Each thread processes multiple elements first:
+
+ T -> x0 + x16
+ T -> x1 + x17
+ T -> x2 + x18
+ ...
+
+Then reduction:
+
+[■■■■■■■■■■■■■■■■] ( shared mem )
+ \ \ \ \ \ \ \ \
+  [■■■■■■■■]
+   \ \ \ \
+    [■■■■]
+     \ \
+      [■■]
+
+Hardware fully utilized
+-----------------------
+Hardware underutilized only near the end
+*/
+/*
+__global__ CoarsenedReductionKernel(float* input, float* output) {
+    __shared__ float input_s[BLOCK_DIM];
+
+    // Each block processes COARSE_FACTOR * 2 * blockDim.x elements.
+    // Starting locations for each block has an offset by size of COARSE_FACTOR * 2 * blockDimx
+    unsigned int segment = COARSE_FACTOR * 2 * blockDim.x * blockIdx.x;
+    unsigned int i = segment + threadIdx.x;
+    unsigned int t = threadIdx.x;
+
+    float sum = input[i];
+
+    for (unsigned int tile = 1; tile < COARSE_FACTOR * 2; ++tile) {
+        sum += input[i + tile * BLOCK_DIM];
+    }
+    input_s[t] = sum;
+    for (unsigned int stride = blockDim.x / 2; stride >= 1; stride /= 2) {
+        __syncthreads();
+        if (t < stride) {
+            input_s[t] += input_s[t + stride];
+        }
+    }
+    if (t == 0) {
+        atomicAdd(output, input_s[0]);
+    }
+}
+*/
+
 // Recursive Implementation of Interleaved Pair Approach
 int recursiveReduce(int* data, int const size)
 {

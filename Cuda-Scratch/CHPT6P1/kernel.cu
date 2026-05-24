@@ -47,8 +47,6 @@ void matMult(const int* A, const int* B, int* C, size_t size) {
     }
 }
 
-
-
 __global__ void matMultKernel(int* A, int* B, int* C);
 
 int main()
